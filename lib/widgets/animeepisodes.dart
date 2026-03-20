@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rivamiru/models/animeinterface.dart';
-import 'package:rivamiru/screens/searchscreen.dart';
+import 'package:rivamiru/models/provider.dart';
 import 'package:rivamiru/widgets/sourcesheet.dart';
 import 'package:rivamiru/widgets/texts.dart';
 
@@ -23,7 +23,7 @@ class _AnimeEpisodesState extends State<AnimeEpisodes> {
   }
 
   Future<void> loadEpisodes(Anime anime) async {
-    final episodes = await provider.getEpisodes(anime);
+    final episodes = await Provider().getEpisodes(anime);
     widget._anime.episodes = episodes;
     setState(() {
       _episodes = episodes;

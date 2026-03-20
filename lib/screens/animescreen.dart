@@ -38,22 +38,30 @@ class _AnimeScreenState extends State<AnimeScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget._anime.name), leading: BackButton()),
 
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: () => loadMetaData(widget._anime.name),
+        child: ListView(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
 
-            spacing: 20,
+                spacing: 20,
 
-            children: [
-              AnimeHeader(anime: widget._anime),
-              PlayButtons(episodes: widget._anime.episodes),
-              AnimeDescription(description: widget._anime.description),
-              AnimeEpisodes(anime: widget._anime),
-            ],
-          ),
+                children: [
+                  AnimeHeader(anime: widget._anime),
+                  PlayButtons(
+                    anime: widget._anime,
+                    episodes: widget._anime.episodes,
+                  ),
+                  AnimeDescription(description: widget._anime.description),
+                  AnimeEpisodes(anime: widget._anime),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

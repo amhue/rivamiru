@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rivamiru/models/animeinterface.dart';
 import 'package:chewie/chewie.dart';
-import 'package:rivamiru/widgets/selectsub.dart';
+import 'package:rivamiru/widgets/selectsubsheet.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 

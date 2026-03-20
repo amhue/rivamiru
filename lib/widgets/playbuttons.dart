@@ -1,12 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:rivamiru/models/animeinterface.dart';
+import 'package:rivamiru/models/database.dart';
 import 'package:rivamiru/widgets/sourcesheet.dart';
 
-class PlayButtons extends StatelessWidget {
+class PlayButtons extends StatefulWidget {
+  final Anime _anime;
   final List<Episode>? _episodes;
 
-  const PlayButtons({required List<Episode>? episodes, super.key})
-    : _episodes = episodes;
+  const PlayButtons({
+    required Anime anime,
+    required List<Episode>? episodes,
+    super.key,
+  }) : _anime = anime,
+       _episodes = episodes;
+
+  @override
+  State<StatefulWidget> createState() => _PlayButtonsState();
+}
+
+class _PlayButtonsState extends State<PlayButtons> {
+  bool isAnimeFavourite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setAnimeFavourite(widget._anime.id);
+  }
+
+  Future<void> setAnimeFavourite(int id) async {
+    final isFavourite = await AnimeDatabase().isAnimePresent(id);
+
+    setState(() {
+      isAnimeFavourite = isFavourite;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +51,17 @@ class PlayButtons extends StatelessWidget {
       children: [
         Expanded(
           child: FilledButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                isAnimeFavourite = !(isAnimeFavourite);
+              });
+
+              if (isAnimeFavourite) {
+                AnimeDatabase().addAnime(widget._anime);
+              } else {
+                AnimeDatabase().deleteAnime(widget._anime);
+              }
+            },
             style: FilledButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -32,15 +69,21 @@ class PlayButtons extends StatelessWidget {
             ),
             child: Row(
               mainAxisAlignment: .center,
-              children: [Icon(Icons.favorite), Text("Add")],
+              children: [
+                isAnimeFavourite
+                    ? Icon(Icons.favorite)
+                    : Icon(Icons.favorite_outline),
+                Text("Add"),
+              ],
             ),
           ),
         ),
 
         Expanded(
           child: FilledButton(
-            onPressed: () =>
-                _episodes != null ? showBottomSheet(_episodes[0]) : "",
+            onPressed: () => widget._episodes != null
+                ? showBottomSheet(widget._episodes![0])
+                : "",
             style: FilledButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

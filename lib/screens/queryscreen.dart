@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rivamiru/models/animeinterface.dart';
-import 'package:rivamiru/screens/searchscreen.dart';
-import 'package:rivamiru/widgets/showlatest.dart';
+import 'package:rivamiru/models/provider.dart';
+import 'package:rivamiru/widgets/showlist.dart';
 import 'package:rivamiru/widgets/textinput.dart';
 
 class QueryScreen extends StatefulWidget {
@@ -19,12 +19,12 @@ class _QueryScreenState extends State<QueryScreen> {
 
   @override
   void initState() {
-    getLatest();
+    searchAnime();
     super.initState();
   }
 
-  Future<void> getLatest() async {
-    final data = await provider.searchAnime(widget.query) ?? [];
+  Future<void> searchAnime() async {
+    final data = await Provider().searchAnime(widget.query) ?? [];
 
     if (!mounted) return;
 
@@ -36,25 +36,25 @@ class _QueryScreenState extends State<QueryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Rivamiru")),
+      appBar: AppBar(title: Text("Results for ${widget.query}")),
       body: Container(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-
+        padding: EdgeInsets.all(10),
+        child: RefreshIndicator(onRefresh: searchAnime, child:ListView(
           children: [
-            TextInput(text: widget.query),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+              child: TextInput(text: widget.query),
+            ),
             animeList.isNotEmpty
-                ? Expanded(child: ShowLatest(animeList))
+                ? Expanded(child: ShowList(animeList))
                 : Center(
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(10),
                       child: CircularProgressIndicator(),
                     ),
                   ),
           ],
-        ),
+        ),)
       ),
     );
   }

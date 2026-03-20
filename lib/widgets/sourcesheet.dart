@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rivamiru/models/animeinterface.dart';
-import 'package:rivamiru/screens/searchscreen.dart';
+import 'package:rivamiru/models/provider.dart';
 import 'package:rivamiru/widgets/texts.dart';
 
 class SourceSheet extends StatefulWidget {
@@ -22,7 +22,7 @@ class _SourceSheetState extends State<SourceSheet> {
 
   Future<void> loadVideos(Episode e) async {
     if (e.videos == null) {
-      final videos = await provider.getVideos(e);
+      final videos = await Provider().getVideos(e);
       setState(() {
         e.videos = videos;
       });

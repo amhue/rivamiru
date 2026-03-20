@@ -4,7 +4,7 @@ import 'package:rivamiru/models/animeinterface.dart';
 import 'package:rivamiru/screens/animescreen.dart';
 import 'package:rivamiru/screens/homescreen.dart';
 import 'package:rivamiru/screens/queryscreen.dart';
-import 'package:rivamiru/screens/searchscreen.dart';
+import 'package:rivamiru/screens/latestscreen.dart';
 import 'package:rivamiru/screens/settingscreen.dart';
 import 'package:rivamiru/screens/videoscreen.dart';
 import 'package:rivamiru/style.dart';
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             GoRoute(
               path: "/search",
               pageBuilder: (context, state) =>
-                  NoTransitionPage(child: SearchScreen()),
+                  NoTransitionPage(child: LatestScreen()),
             ),
             GoRoute(
               path: "/settings",
@@ -94,15 +94,13 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         brightness: Brightness.dark,
+        // colorSchemeSeed: Colors.pink,
         textTheme: TextTheme(
           titleLarge: Style.titleTheme(Theme.of(context).colorScheme),
           titleSmall: Style.smallTitleTheme(Theme.of(context).colorScheme),
           bodySmall: Style.descTheme(Theme.of(context).colorScheme),
           bodyMedium: Style.bodyTheme(Theme.of(context).colorScheme),
         ),
-        // appBarTheme: AppBarTheme(
-        // titleTextStyle: Style.appBarTheme(Theme.of(context).colorScheme),
-        // ),
       ),
     );
   }

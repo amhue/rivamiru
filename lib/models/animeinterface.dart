@@ -18,6 +18,22 @@ class Anime {
     this.imageUrl,
     this.releaseStatus,
   });
+
+  Anime.fromMap(Map<String, dynamic> map)
+    : id = map['id'],
+      name = map['name'],
+      description = map['description'],
+      imageUrl = map['imageUrl'];
+
+  // Implementing only anime metadata to be stored in db
+  Map<String, dynamic> map() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'imageUrl': imageUrl,
+    };
+  }
 }
 
 class Episode {

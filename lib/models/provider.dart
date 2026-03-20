@@ -9,6 +9,14 @@ import 'package:rivamiru/utils.dart';
 import 'package:video_player/video_player.dart';
 
 class Provider extends AnimeInterface {
+  static final Provider _instance = Provider._init();
+
+  factory Provider() {
+    return _instance;
+  }
+
+  Provider._init();
+
   final _baseUrl = "https://9animetv.to";
 
   @override

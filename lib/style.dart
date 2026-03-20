@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Style {
   static TextStyle titleTheme(ColorScheme colors) {
-    return TextStyle(fontSize: 24);
+    return TextStyle(fontSize: 22);
   }
 
   static TextStyle smallTitleTheme(ColorScheme colors) {

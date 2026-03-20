@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rivamiru/models/animeinterface.dart';
 
-class LatestCard extends StatelessWidget {
+class AnimeCard extends StatelessWidget {
   final Anime _anime;
 
-  const LatestCard(this._anime, {super.key});
+  const AnimeCard(this._anime, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +29,16 @@ class LatestCard extends StatelessWidget {
               _anime.name,
               maxLines: 2,
               style: TextStyle(
+                color: Colors.white,
                 fontWeight: .w500,
                 fontSize: 12,
                 shadows: [
                   Shadow(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: Colors.black,
                     blurRadius: 2,
                   ),
                   Shadow(
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: Colors.black,
                     blurRadius: 2,
                   ),
                 ],
