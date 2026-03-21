@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rivamiru/models/animeinterface.dart';
 import 'package:rivamiru/models/database.dart';
 import 'package:rivamiru/widgets/showlist.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,6 +10,8 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
+late final SharedPreferences prefs;
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Anime> animeList = [];
@@ -35,7 +38,36 @@ class _HomeScreenState extends State<HomeScreen> {
         onRefresh: loadFavorites,
         child: ListView(
           children: [
-            Container(padding: EdgeInsets.all(10), child: ShowList(animeList)),
+            animeList.isNotEmpty
+                ? Container(
+                    padding: EdgeInsets.all(10),
+                    child: ShowList(animeList),
+                  )
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height - 200,
+                    child: Column(
+                      mainAxisAlignment: .center,
+                      crossAxisAlignment: .center,
+                      children: [
+                        Text(
+                          "No Anime in Library",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: .w400,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                        Text(
+                          "(ᗒ︵ᗕ)՞",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: .w400,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
           ],
         ),
       ),

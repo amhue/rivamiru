@@ -1,5 +1,5 @@
 name: rivamiru
-description: "A new Flutter project."
+description: "Watch anime easily."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -42,6 +42,9 @@ dependencies:
   wakelock_plus: ^1.5.1
   sqflite: ^2.4.2
   path: ^1.9.1
+  shared_preferences: ^2.5.4
+  provider: ^6.1.5+1
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
