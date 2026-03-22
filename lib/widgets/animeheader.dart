@@ -22,7 +22,10 @@ class AnimeHeader extends StatelessWidget {
 
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(img, fit: BoxFit.cover),
+                  child: Hero(
+                    tag: _anime.id,
+                    child: Image.network(img, fit: BoxFit.cover),
+                  ),
                 ),
               )
             : Expanded(
@@ -42,7 +45,9 @@ class AnimeHeader extends StatelessWidget {
 
             children: [
               TitleSmall(data: _anime.name),
-              BodyText(data: "${_anime.episodes?.length ?? 0} episodes released"),
+              BodyText(
+                data: "${_anime.episodes?.length ?? 0} episodes released",
+              ),
               _anime.releaseStatus == ReleaseStatus.loading
                   ? CircularProgressIndicator()
                   : DescText(

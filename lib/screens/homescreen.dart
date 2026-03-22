@@ -15,6 +15,10 @@ late final SharedPreferences prefs;
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Anime> animeList = [];
+  bool isSearchPressed = false;
+  String searchText = "";
+  final TextEditingController textEditingController = TextEditingController();
+  List<Anime> toShow = [];
 
   @override
   void initState() {
@@ -27,21 +31,68 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       animeList = favorites;
+      toShow = animeList
+          .where(
+            (e) =>
+                e.name.split(' ').join().contains(searchText.split(' ').join()),
+          )
+          .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Anime")),
+      appBar: AppBar(
+        title: !isSearchPressed
+            ? Text("Anime")
+            : TextField(
+                controller: textEditingController,
+                autofocus: true,
+                decoration: InputDecoration(hintText: "Search library"),
+                onTapOutside: (_) {
+                  if (searchText.isEmpty) {
+                    setState(() {
+                      isSearchPressed = !isSearchPressed;
+                    });
+                  }
+                },
+                onChanged: (text) {
+                  setState(() {
+                    searchText = text;
+
+                    toShow = animeList
+                        .where(
+                          (e) => e.name
+                              .toLowerCase()
+                              .replaceAll(' ', '')
+                              .contains(
+                                searchText.toLowerCase().replaceAll(' ', ''),
+                              ),
+                        )
+                        .toList();
+                  });
+                },
+              ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isSearchPressed = !isSearchPressed;
+              });
+            },
+            icon: Icon(Icons.search),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: loadFavorites,
         child: ListView(
           children: [
-            animeList.isNotEmpty
+            toShow.isNotEmpty
                 ? Container(
                     padding: EdgeInsets.all(10),
-                    child: ShowList(animeList),
+                    child: ShowList(toShow),
                   )
                 : SizedBox(
                     height: MediaQuery.of(context).size.height - 200,
@@ -50,7 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: .center,
                       children: [
                         Text(
-                          "No Anime in Library",
+                          searchText.isEmpty ? 
+                          "No Anime in Library" : "$searchText not found",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: .w400,
@@ -58,7 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          "(ᗒ︵ᗕ)՞",
+                          searchText.isEmpty ? 
+                          "(ᗒ︵ᗕ)՞" : "(ó д ò)",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: .w400,

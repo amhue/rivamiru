@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rivamiru/models/animeinterface.dart';
+import 'package:rivamiru/models/provider.dart';
 import 'package:rivamiru/utils.dart';
 import 'package:rivamiru/widgets/animedesc.dart';
 import 'package:rivamiru/widgets/animeepisodes.dart';
@@ -15,10 +16,17 @@ class AnimeScreen extends StatefulWidget {
 }
 
 class _AnimeScreenState extends State<AnimeScreen> {
+  List<Episode>? _episodes;
+  bool isSearchPressed = false;
+  final TextEditingController textEditingController = TextEditingController();
+  String searchText = "";
+  List<Episode>? toShow;
+
   @override
   void initState() {
-    loadMetaData(widget._anime.name);
     super.initState();
+    loadMetaData(widget._anime.name);
+    loadEpisodes(widget._anime);
   }
 
   Future<void> loadMetaData(String name) async {
@@ -33,10 +41,59 @@ class _AnimeScreenState extends State<AnimeScreen> {
     });
   }
 
+  Future<void> loadEpisodes(Anime anime) async {
+    final episodes = await Provider().getEpisodes(anime);
+    widget._anime.episodes = episodes;
+    setState(() {
+      _episodes = episodes;
+      toShow = _episodes;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget._anime.name), leading: BackButton()),
+      appBar: AppBar(
+        title: !isSearchPressed
+            ? Text(widget._anime.name)
+            : TextField(
+                controller: textEditingController,
+                autofocus: true,
+                decoration: InputDecoration(hintText: "Search Episode"),
+                onTapOutside: (_) {
+                  if (searchText.isEmpty) {
+                    setState(() {
+                      isSearchPressed = !isSearchPressed;
+                    });
+                  }
+                },
+                onChanged: (text) {
+                  setState(() {
+                    searchText = text;
+
+                    toShow = _episodes
+                        ?.where(
+                          (e) => "episode${e.number.toString().toLowerCase()}"
+                              .contains(
+                                searchText.toLowerCase().replaceAll(' ', ''),
+                              ),
+                        )
+                        .toList();
+                  });
+                },
+              ),
+
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isSearchPressed = !isSearchPressed;
+              });
+            },
+            icon: Icon(Icons.search),
+          ),
+        ],
+      ),
 
       body: RefreshIndicator(
         onRefresh: () => loadMetaData(widget._anime.name),
@@ -57,7 +114,7 @@ class _AnimeScreenState extends State<AnimeScreen> {
                     episodes: widget._anime.episodes,
                   ),
                   AnimeDescription(description: widget._anime.description),
-                  AnimeEpisodes(anime: widget._anime),
+                  AnimeEpisodes(episodes: toShow),
                 ],
               ),
             ),

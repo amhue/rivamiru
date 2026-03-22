@@ -67,6 +67,24 @@ class _VideoScreenState extends State<VideoScreen> {
       ],
       subtitle: widget._video.subtilesList[subTitleLanguageIndex].$1,
       showSubtitles: widget._video.subtilesList.isNotEmpty,
+      subtitleBuilder: (context, subtitle) {
+        return Center(
+          child: Text(
+            subtitle as String,
+            textAlign: .center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              shadows: [
+                Shadow(color: Colors.black, offset: Offset(1, 1)),
+                Shadow(color: Colors.black, offset: Offset(-1, 1)),
+                Shadow(color: Colors.black, offset: Offset(-1, -1)),
+                Shadow(color: Colors.black, offset: Offset(1, -1)),
+              ],
+            ),
+          ),
+        );
+      },
       additionalOptions: (context) => [
         OptionItem(
           onTap: (context) => showLanguageSheet(

@@ -1,34 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rivamiru/models/animeinterface.dart';
-import 'package:rivamiru/models/provider.dart';
 import 'package:rivamiru/widgets/sourcesheet.dart';
 import 'package:rivamiru/widgets/texts.dart';
 
-class AnimeEpisodes extends StatefulWidget {
-  final Anime _anime;
+class AnimeEpisodes extends StatelessWidget {
+  final List<Episode>? _episodes;
 
-  const AnimeEpisodes({required Anime anime, super.key}) : _anime = anime;
-
-  @override
-  State<AnimeEpisodes> createState() => _AnimeEpisodesState();
-}
-
-class _AnimeEpisodesState extends State<AnimeEpisodes> {
-  List<Episode>? _episodes;
-
-  @override
-  void initState() {
-    loadEpisodes(widget._anime);
-    super.initState();
-  }
-
-  Future<void> loadEpisodes(Anime anime) async {
-    final episodes = await Provider().getEpisodes(anime);
-    widget._anime.episodes = episodes;
-    setState(() {
-      _episodes = episodes;
-    });
-  }
+  const AnimeEpisodes({required List<Episode>? episodes, super.key}) : _episodes = episodes;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +31,7 @@ class _AnimeEpisodesState extends State<AnimeEpisodes> {
             : ListView(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                children: _episodes!.reversed
+                children: _episodes.reversed
                     .map(
                       (e) => ListTile(
                         contentPadding: EdgeInsets.all(0),

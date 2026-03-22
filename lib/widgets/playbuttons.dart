@@ -96,20 +96,20 @@ class _PlayButtonsState extends State<PlayButtons> {
           ),
         ),
 
-        Expanded(
-          child: FilledButton(
-            onPressed: () {},
-            style: FilledButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: .center,
-              children: [Icon(Icons.restart_alt), Text("Resume")],
-            ),
-          ),
-        ),
+        // Expanded(
+        //   child: FilledButton(
+        //     onPressed: () {},
+        //     style: FilledButton.styleFrom(
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(12),
+        //       ),
+        //     ),
+        //     child: Row(
+        //       mainAxisAlignment: .center,
+        //       children: [Icon(Icons.restart_alt), Text("Resume")],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

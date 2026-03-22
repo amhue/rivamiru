@@ -15,11 +15,14 @@ class AnimeCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              _anime.imageUrl ?? "",
-              fit: BoxFit.cover,
-              height: 300,
-              // width: double.infinity,
+            child: Hero(
+              tag: _anime.id,
+              child: Image.network(
+                _anime.imageUrl ?? "",
+                fit: BoxFit.cover,
+                height: 300,
+                // width: double.infinity,
+              ),
             ),
           ),
           Container(
@@ -33,14 +36,8 @@ class AnimeCard extends StatelessWidget {
                 fontWeight: .w500,
                 fontSize: 12,
                 shadows: [
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 2,
-                  ),
-                  Shadow(
-                    color: Colors.black,
-                    blurRadius: 2,
-                  ),
+                  Shadow(color: Colors.black, blurRadius: 2),
+                  Shadow(color: Colors.black, blurRadius: 2),
                 ],
               ),
               overflow: TextOverflow.ellipsis,

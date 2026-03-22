@@ -39,22 +39,25 @@ class _QueryScreenState extends State<QueryScreen> {
       appBar: AppBar(title: Text("Results for ${widget.query}")),
       body: Container(
         padding: EdgeInsets.all(10),
-        child: RefreshIndicator(onRefresh: searchAnime, child:ListView(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
-              child: TextInput(text: widget.query),
-            ),
-            animeList.isNotEmpty
-                ? Expanded(child: ShowList(animeList))
-                : Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: CircularProgressIndicator(),
+        child: RefreshIndicator(
+          onRefresh: searchAnime,
+          child: ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                child: TextInput(text: widget.query),
+              ),
+              animeList.isNotEmpty
+                  ? ShowList(animeList)
+                  : Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
-                  ),
-          ],
-        ),)
+            ],
+          ),
+        ),
       ),
     );
   }
